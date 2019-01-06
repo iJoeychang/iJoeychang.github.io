@@ -1,0 +1,1076 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="我的翻译," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="原文：https://www.raywenderlich.com/140836/firebase-tutorial-real-time-chat-2
+貌似市场上的主流 app 都有聊天功能，所以，我们的 app 也应当添加聊天功能啦。
+然而，开发一个聊天工具是一个令人畏惧的工作。除了要有专门用于聊天的本地 UIKit 控件，我们还需要一个服务器来协调用户之间的消息和对话。
+幸运的是，有一些不错的框">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Firebase-教程--iOS-实时聊天">
+<meta property="og:url" content="http://ijoeychang.github.io/2017/10/24/2017/Firebase-教程--iOS-实时聊天/index.html">
+<meta property="og:site_name" content="Joey  chang's  blog">
+<meta property="og:description" content="原文：https://www.raywenderlich.com/140836/firebase-tutorial-real-time-chat-2
+貌似市场上的主流 app 都有聊天功能，所以，我们的 app 也应当添加聊天功能啦。
+然而，开发一个聊天工具是一个令人畏惧的工作。除了要有专门用于聊天的本地 UIKit 控件，我们还需要一个服务器来协调用户之间的消息和对话。
+幸运的是，有一些不错的框">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-c1fe919e57ee82fa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-8cddc149a138afb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-787dde562d169a39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-6da83ae75ea77c23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-a84208cd550291fc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-1f7b10766e2da484.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-f5b831f7d11aa137.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-a3c352bdcd94b479.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-776c63c5ee902e62.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-204b29589556dd27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-5d347b3550343216.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-0a5bd0a189d15586.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-6966090a573224fc.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-402d03270957ef56.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-157a7ff101cd9e6a.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-9829fac8efcfc977.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-189474f3b3774ad9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/130752-e159da58121447fb.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-01-13T05:17:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Firebase-教程--iOS-实时聊天">
+<meta name="twitter:description" content="原文：https://www.raywenderlich.com/140836/firebase-tutorial-real-time-chat-2
+貌似市场上的主流 app 都有聊天功能，所以，我们的 app 也应当添加聊天功能啦。
+然而，开发一个聊天工具是一个令人畏惧的工作。除了要有专门用于聊天的本地 UIKit 控件，我们还需要一个服务器来协调用户之间的消息和对话。
+幸运的是，有一些不错的框">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/130752-c1fe919e57ee82fa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Firebase-教程--iOS-实时聊天 | Joey  chang's  blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?7051b02e64de9396c8130272189f6a4d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Joey  chang's  blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Firebase-教程--iOS-实时聊天
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-10-24T00:00:00+08:00" content="2017-10-24">
+              2017-10-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术博客翻译/" itemprop="url" rel="index">
+                    <span itemprop="name">技术博客翻译</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/10/24/2017/Firebase-教程--iOS-实时聊天/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/24/2017/Firebase-教程--iOS-实时聊天/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+             <span>&nbsp; | &nbsp;
+             <span id="busuanzi_value_page_pv" ></span>次阅读
+             </span>    
+          
+
+          
+
+          
+
+
+          
+           
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文：<a href="https://www.raywenderlich.com/140836/firebase-tutorial-real-time-chat-2" target="_blank" rel="external">https://www.raywenderlich.com/140836/firebase-tutorial-real-time-chat-2</a></p>
+<p>貌似市场上的主流 app 都有聊天功能，所以，我们的 app 也应当添加聊天功能啦。</p>
+<p>然而，开发一个聊天工具是一个令人畏惧的工作。除了要有专门用于聊天的本地 UIKit 控件，我们还需要一个服务器来协调用户之间的消息和对话。</p>
+<p>幸运的是，有一些不错的框架可以帮助我们：在<a href="https://www.firebase.google.com/" target="_blank" rel="external">Firebase</a> 的帮助下，我们可以不用写一行后端代码就可同步实时数据，而 <a href="https://github.com/jessesquires/JSQMessagesViewController" target="_blank" rel="external">JSQMessagesViewController</a> 则给我们提供了一个与原生消息 app 相似的消息传递 UI 。</p>
+<p>在这篇 Firebase 教程中，我们将开发一个  <em>RIC</em> (Really Instant Chat) – 匿名聊天应用。如果你使用过 IRC 或者 Slack，这种 app 你应该很熟悉了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-c1fe919e57ee82fa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Real time chat app"></p>
+<p>在此教程，您将学习到如下内容:</p>
+<ol>
+<li>使用 CocoaPods 设置 Firebase  SDK 和 JSQMessagesViewController。</li>
+<li>使用 Firebase 数据库实时同步数据。</li>
+<li>Firebase 匿名身份验证。</li>
+<li>使用 JSQMessagesViewController 做为完整的聊天界面。</li>
+<li>指示用户何时输入。</li>
+<li>使用 Firebase 存储。</li>
+</ol>
+<h5 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h5><p>下载初始工程  <a href="https://koenig-media.raywenderlich.com/uploads/2016/09/ChatChatFirebaseTutorial-start.zip" target="_blank" rel="external">the starter project here</a> 。现在，它包含一个简单的虚拟登录界面。</p>
+<p>我们使用 CocoaPods 下载 Firebase SDK 和 JSQMessagesViewController。如果你还不会使用 CocoaPods ，请先学习我们这篇教程  <a href="http://www.raywenderlich.com/97014/use-cocoapods-with-swift" target="_blank" rel="external">Cocoapods with Swift tutorial</a>。</p>
+<p>在项目目录下，进入终端，打开根目录下的 Podfile 文件，添加如下依赖代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pod &apos;Firebase/Storage&apos;</span><br><span class="line">pod &apos;Firebase/Auth&apos;</span><br><span class="line">pod &apos;Firebase/Database&apos;</span><br><span class="line">pod &apos;JSQMessagesViewController&apos;</span><br></pre></td></tr></table></figure>
+<p>保存文件，命令行执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod install</span><br></pre></td></tr></table></figure>
+<p>完成依赖包下载后，在 Xcode 打开 ChatChat.xcworkspace 。在运行之前，先配置 Firebase 。</p>
+<p>如果你从未使用过 Firebase，首先你需要创建一个账号。不用担心，这些是免费的。</p>
+<blockquote>
+<p><em>注:</em> Firebase 的操作细节，可以看这里 <a href="http://www.raywenderlich.com/109706/firebase-tutorial-getting-started" target="_blank" rel="external">Getting Started with Firebase tutorial</a>.</p>
+</blockquote>
+<p>#####创建 Firebase 账号 </p>
+<p>登录  <a href="https://www.firebase.com/signup/" target="_blank" rel="external">the Firebase signup site</a>，创建账号，然后创建一个工程。</p>
+<p>按照指示将 Firebase 添加到 iOS 应用程序，复制 <em>GoogleService-Info.plist</em> 配置文件到你的项目。它包含与应用程序的 Firebase 集成所需的配置信息。</p>
+<p>build and run ，你将看到如下界面：</p>
+<p><a href="https://koenig-media.raywenderlich.com/uploads/2016/08/LoginScreen.jpg" target="_blank" rel="external"><img src="http://upload-images.jianshu.io/upload_images/130752-8cddc149a138afb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Login Screen"></a></p>
+<h5 id="允许匿名认证"><a href="#允许匿名认证" class="headerlink" title="允许匿名认证"></a>允许匿名认证</h5><p>Firebase允许用户通过电子邮件或社交帐户登录，但它也可以匿名地对用户进行身份验证，为用户提供唯一的标识符，而不需要了解他们任何信息。</p>
+<p>要设置匿名验证，打开 Firebase 应用程序的 Dashboard，选择左侧的 Auth 选项，单击 “Sign-In” 方法，然后选择“ Anonymous”，打开 “ Enable” 按钮，然后单击 “Save”。</p>
+<p><a href="https://koenig-media.raywenderlich.com/uploads/2016/08/EnableAnonAuth.png" target="_blank" rel="external"><img src="http://upload-images.jianshu.io/upload_images/130752-787dde562d169a39.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Enable anonymous auth"></a></p>
+<p>像这样，我们启用了<em>超级秘密隐形模式</em> ! 好吧，虽然这只是匿名身份验证，但它仍然很酷。</p>
+<p><a href="https://koenig-media.raywenderlich.com/uploads/2016/01/stealthmode.png" target="_blank" rel="external"><img src="http://upload-images.jianshu.io/upload_images/130752-6da83ae75ea77c23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Super secret stealth mode achieved"></a></p>
+<h5 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h5><p>打开 LoginViewController.swift，添加 import UIKit:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import Firebase</span><br></pre></td></tr></table></figure>
+<p>要登录聊天，app 需要使用 Firebase 身份验证服务进行身份验证。将以下代码添加到loginDidTouch(_:):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">if nameField?.text != &quot;&quot; &#123; // 1</span><br><span class="line">  FIRAuth.auth()?.signInAnonymously(completion: &#123; (user, error) in // 2</span><br><span class="line">    if let err = error &#123; // 3</span><br><span class="line">      print(err.localizedDescription)</span><br><span class="line">      return</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    self.performSegue(withIdentifier: &quot;LoginToChat&quot;, sender: nil) // 4</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注释如下:</p>
+<ol>
+<li>首先，确保  name field 非空。<br>2.使用 Firebase Auth API 匿名登录，该方法带了一个方法块儿，方法块儿传递 user 和 error 信息。</li>
+<li>在完成方法块里，检查是否有认证错误，如果有，终止运行。</li>
+<li>最后，如果没有错误异常，进入 ChannelListViewController 页面。</li>
+</ol>
+<p>Build and run，输入你的名字，然后进入 app。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-a84208cd550291fc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Empty channel list"></p>
+<p>#####创建 Channels 列表</p>
+<p>一旦用户登录了, app 导航到 ChannelListViewController 页面, 该页面展示给用户当前频道列表, 给他们提供选择创建新通道。该页面使用两个 section 的表视图。第一个 section 提供了一个表单，用户可以在其中创建一个新的通道，第二 section 列出所有已知通道。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-1f7b10766e2da484.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Channel list view"></p>
+<p>本小节，我们将学到：</p>
+<ol>
+<li>保存数据到 Firebase 数据库</li>
+<li>监听保存到数据库的新数据。</li>
+</ol>
+<p>在 ChannelListViewController.swift  的头部添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import Firebase</span><br><span class="line"></span><br><span class="line">enum Section: Int &#123;</span><br><span class="line">  case createNewChannelSection = 0</span><br><span class="line">  case currentChannelsSection  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>紧随导入语句之后的 enum 中包含两个表视图 section 。</p>
+<p>接下来，在类内，添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// MARK: Properties</span><br><span class="line">var senderDisplayName: String? // 1</span><br><span class="line">var newChannelTextField: UITextField? // 2</span><br><span class="line">private var channels: [Channel] = [] // 3</span><br></pre></td></tr></table></figure>
+<p>注释如下 ：</p>
+<ol>
+<li>添加一个存储 sender name 的属性。</li>
+<li>添加一个 text field ，稍后我们会使用它添加新的 Channels。</li>
+<li>添加一个空的 Channel 对象数组，存储你的 channels。这是 starter 项目中提供的一个简单的模型类，它只包含一个名称和一个ID。</li>
+</ol>
+<p>接下来，我们需要设置 UITableView 来呈现新的通道和可用的通道列表。在 ChannelListViewController.swift 中添加以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// MARK: UITableViewDataSource</span><br><span class="line">override func numberOfSections(in tableView: UITableView) -&gt; Int &#123;</span><br><span class="line">  return 2 // 1</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -&gt; Int &#123; // 2</span><br><span class="line">  if let currentSection: Section = Section(rawValue: section) &#123;</span><br><span class="line">    switch currentSection &#123;</span><br><span class="line">    case .createNewChannelSection:</span><br><span class="line">      return 1</span><br><span class="line">    case .currentChannelsSection:</span><br><span class="line">      return channels.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return 0</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 3</span><br><span class="line">override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell &#123;</span><br><span class="line">  let reuseIdentifier = (indexPath as NSIndexPath).section == Section.createNewChannelSection.rawValue ? &quot;NewChannel&quot; : &quot;ExistingChannel&quot;</span><br><span class="line">  let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)</span><br><span class="line"></span><br><span class="line">  if (indexPath as NSIndexPath).section == Section.createNewChannelSection.rawValue &#123;</span><br><span class="line">    if let createNewChannelCell = cell as? CreateChannelCell &#123;</span><br><span class="line">      newChannelTextField = createNewChannelCell.newChannelNameField</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if (indexPath as NSIndexPath).section == Section.currentChannelsSection.rawValue &#123;</span><br><span class="line">    cell.textLabel?.text = channels[(indexPath as NSIndexPath).row].name</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  return cell</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于以前使用过 UITableView 的人来说，这应该是非常熟悉的，但简单地说几点:</p>
+<ol>
+<li>设置 Sections。请记住，第一部分将包含一个用于添加新通道的表单，第二部分将显示一个通道列表。</li>
+<li>为每个部分设置行数。第一部分设置为 1，第二部分设置个数为通道的个数。</li>
+<li>定义每个单元格的内容。对于第一个部分，我们将 cell 中的 text field 存储在newChannelTextField 属性中。对于第二部分，您只需将单元格的 text field 标签设置为通道名称。</li>
+</ol>
+<p>为了确保这一切正常工作，请在属性下面添加以下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">override func viewDidAppear(_ animated: Bool) &#123;</span><br><span class="line">  super.viewDidAppear(animated)</span><br><span class="line">    </span><br><span class="line">  channels.append(Channel(id: &quot;1&quot;, name: &quot;Channel1&quot;))</span><br><span class="line">  channels.append(Channel(id: &quot;2&quot;, name: &quot;Channel2&quot;))</span><br><span class="line">  channels.append(Channel(id: &quot;3&quot;, name: &quot;Channel3&quot;))</span><br><span class="line">  self.tableView.reloadData()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这只是向通道数组添加了一些虚拟通道。</p>
+<p>Build and run app ; 再次登录，我们现在应该可以看到表单创建一个新的通道和三个虚拟通道:</p>
+<p>太棒了! 接下来，我们需要让它与 Firebase 一起工作了。 :]</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-f5b831f7d11aa137.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Dummy channels"></p>
+<h5 id="Firebase-数据结构"><a href="#Firebase-数据结构" class="headerlink" title="Firebase 数据结构"></a>Firebase 数据结构</h5><p>在实现实时数据同步之前，首先让我们花一会儿功夫想想数据结构。</p>
+<p>Firebase database 以 NoSQL JSON 格式存储数据。</p>
+<p>基本上，Firebase数据库中的所有内容都是JSON对象，而这个JSON对象的每个键都有自己的URL。</p>
+<p>下面是一个说明我们的数据如何作为 JSON 对象的示例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;channels&quot;: &#123;</span><br><span class="line">    &quot;name&quot;: &quot;Channel 1&quot;</span><br><span class="line">    &quot;messages&quot;: &#123;</span><br><span class="line">      &quot;1&quot;: &#123; </span><br><span class="line">        &quot;text&quot;: &quot;Hey person!&quot;, </span><br><span class="line">        &quot;senderName&quot;: &quot;Alice&quot;</span><br><span class="line">        &quot;senderId&quot;: &quot;foo&quot; </span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;2&quot;: &#123;</span><br><span class="line">        &quot;text&quot;: &quot;Yo!&quot;,</span><br><span class="line">        &quot;senderName&quot;: &quot;Bob&quot;</span><br><span class="line">        &quot;senderId&quot;: &quot;bar&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Firebase 数据库支持非规范化的数据结构，因此可以为每个消息项包含 senderId。一个非规范化的数据结构意味着我们将复制大量的数据，但好处是可以更快的检索数据。</p>
+<h5 id="实时-Channel-同步"><a href="#实时-Channel-同步" class="headerlink" title="实时 Channel  同步"></a>实时 Channel  同步</h5><p>首先，删除上面添加的viewDidAppear(_:)代码，然后在其他以下属性中添加以下属性:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private lazy var channelRef: FIRDatabaseReference = FIRDatabase.database().reference().child(&quot;channels&quot;)</span><br><span class="line">private var channelRefHandle: FIRDatabaseHandle?</span><br></pre></td></tr></table></figure>
+<p>channelRef 将用于存储对数据库中通道列表的引用;channelRefHandle 将为引用保存一个句柄，以便以后可以删除它。</p>
+<p>接下来，我们需要查询Firebase数据库，并得到一个在我们的表视图中显示的通道列表。添加以下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// MARK: Firebase related methods</span><br><span class="line">private func observeChannels() &#123;</span><br><span class="line">  // Use the observe method to listen for new</span><br><span class="line">  // channels being written to the Firebase DB</span><br><span class="line">  channelRefHandle = channelRef.observe(.childAdded, with: &#123; (snapshot) -&gt; Void in // 1</span><br><span class="line">    let channelData = snapshot.value as! Dictionary&lt;String, AnyObject&gt; // 2</span><br><span class="line">    let id = snapshot.key</span><br><span class="line">    if let name = channelData[&quot;name&quot;] as! String!, name.characters.count &gt; 0 &#123; // 3</span><br><span class="line">      self.channels.append(Channel(id: id, name: name))</span><br><span class="line">      self.tableView.reloadData()</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      print(&quot;Error! Could not decode channel data&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码解释：</p>
+<ol>
+<li>我们在通道引用上调用 observe:with: 方法，将句柄存储到引用。每当在数据库中添加新的通道时，就调用 completion block 。</li>
+<li>completion 后接收到一个 FIRDataSnapshot (存储在快照中)，其中包含数据和其它有用的方法。</li>
+<li>我们将数据从快照中提取出来，如果成功，创建一个通道模型并将其添加到我们的通道数组中。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// MARK: View Lifecycle</span><br><span class="line">override func viewDidLoad() &#123;</span><br><span class="line">  super.viewDidLoad()</span><br><span class="line">  title = &quot;RW RIC&quot;</span><br><span class="line">  observeChannels()</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">deinit &#123;</span><br><span class="line">  if let refHandle = channelRefHandle &#123;</span><br><span class="line">    channelRef.removeObserver(withHandle: refHandle)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这将在 view controller 加载时调用新的 observeChannels() 方法。当 view controller 通过检查 channelRefHandle 是否设置并调用    removeObserver(withHandle:) 来判断是否结束生命周期时，我们同时停止观察数据库更改。</p>
+<p>在看到从 Firebase 中提取出的通道列表之前，还有一件事需要做: 提供一种方法来创建通道! 在故事板中已经设置了 IBAction，所以只需向我们的类添加以下代码就好了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// MARK :Actions </span><br><span class="line">@IBAction func createChannel(_ sender: AnyObject) &#123;</span><br><span class="line">  if let name = newChannelTextField?.text &#123; // 1</span><br><span class="line">    let newChannelRef = channelRef.childByAutoId() // 2</span><br><span class="line">    let channelItem = [ // 3</span><br><span class="line">      &quot;name&quot;: name</span><br><span class="line">    ]</span><br><span class="line">    newChannelRef.setValue(channelItem) // 4</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是详细解释：</p>
+<ol>
+<li>首先检查 text field 是否拥有一个 channel name.</li>
+<li>使用 childByAutoId() 唯一标志 key 创建一个通道引用。</li>
+<li>创建一个字典，以此保存通道的数据。[String: AnyObject] 是类似 JSON 的对象。</li>
+<li>最后，在这个新的通道上设置名称，它将自动保存到Firebase !</li>
+</ol>
+<p>Build and run 我们的 app ,创建一些 channels。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-a3c352bdcd94b479.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Create channels"></p>
+<p>所有内容都应该按照预期运行，但我们还没有实现当用户点击时可以访问其中一个通道。让我们添加以下代码来解决这个问题:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// MARK: UITableViewDelegate</span><br><span class="line">override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) &#123;</span><br><span class="line">  if indexPath.section == Section.currentChannelsSection.rawValue &#123;</span><br><span class="line">    let channel = channels[(indexPath as NSIndexPath).row]</span><br><span class="line">    self.performSegue(withIdentifier: &quot;ShowChannel&quot;, sender: channel)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码，我们应该很熟悉了。当用户点击通道 cell 时，它会触发 ShowChannel segue。</p>
+<h5 id="创建聊天界面"><a href="#创建聊天界面" class="headerlink" title="创建聊天界面"></a>创建聊天界面</h5><p>JSQMessagesViewController 是一个 UICollectionViewController 定制聊天控制类,所以我们不需要再创建自己的了! </p>
+<p>这部分教程，我们将关注四点：</p>
+<ol>
+<li>创建消息数据。</li>
+<li>创建消息泡沫。</li>
+<li>删除头像支持。</li>
+<li>改变 UICollectionViewCell 的 文字颜色。</li>
+</ol>
+<p>几乎所有需要做的事情都需要覆盖方法。JSQMessagesViewController 采用JSQMessagesCollectionViewDataSource 协议,所以我们只需要覆盖默认的实现方法就好了。</p>
+<blockquote>
+<p>注意:有关 JSQMessagesCollectionViewDataSource的更多信息, 请查看这里的 <a href="http://cocoadocs.org/docsets/JSQMessagesViewController/7.3.4/Protocols/JSQMessagesCollectionViewDataSource.html" target="_blank" rel="external">Cocoa 文档</a>。</p>
+</blockquote>
+<p>打开 ChatViewController.swift ，添加如下引入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import Firebase</span><br><span class="line">import JSQMessagesViewController</span><br></pre></td></tr></table></figure>
+<p>将继承类 UIViewController 改为 JSQMessagesViewController：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">final class ChatViewController: JSQMessagesViewController &#123;</span><br></pre></td></tr></table></figure></p>
+<p>在 ChatViewController 头部，定义如下属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var channelRef: FIRDatabaseReference?</span><br><span class="line">var channel: Channel? &#123;</span><br><span class="line">  didSet &#123;</span><br><span class="line">    title = channel?.name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>既然 ChatViewController 继承自JSQMessagesViewController , 我们需要设置 senderId 和 senderDisplayName 的初始值，以使 app 可以唯一标识消息的发送者——即使它不知道那个人具体是谁。</p>
+<p>这些需要在 view controller 首次实例化时设置。最好的设置时刻是当 segue 即将 prepare 时。回到ChannelListViewController, 添加以下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// MARK: Navigation</span><br><span class="line">override func prepare(for segue: UIStoryboardSegue, sender: Any?) &#123;</span><br><span class="line">  super.prepare(for: segue, sender: sender)</span><br><span class="line">  </span><br><span class="line">  if let channel = sender as? Channel &#123;</span><br><span class="line">    let chatVc = segue.destination as! ChatViewController</span><br><span class="line">  </span><br><span class="line">    chatVc.senderDisplayName = senderDisplayName</span><br><span class="line">    chatVc.channel = channel</span><br><span class="line">    chatVc.channelRef = channelRef.child(channel.id)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这将在执行 segue 之前创建的 ChatViewController 上设置属性。</p>
+<p>获得 senderDisplayName 的最佳位置是当用户登录时输入他们的名字。</p>
+<p>在 LoginViewController.swift，添加如下方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// MARK: Navigation</span><br><span class="line">override func prepare(for segue: UIStoryboardSegue, sender: Any?) &#123;</span><br><span class="line">  super.prepare(for: segue, sender: sender)</span><br><span class="line">  let navVc = segue.destination as! UINavigationController // 1</span><br><span class="line">  let channelVc = navVc.viewControllers.first as! ChannelListViewController // 2</span><br><span class="line">   </span><br><span class="line">  channelVc.senderDisplayName = nameField?.text // 3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注释：</p>
+<ol>
+<li>从 segue 获取目标视图控制器并将其转换为 UINavigationController。</li>
+<li>强制转换 UINavigationController 的第一个view controller 为 ChannelListViewController。</li>
+<li>设置 ChannelListViewController 的senderDisplayName 为 nameField 中提供的用户名。</li>
+</ol>
+<p>返回 ChatViewController.swift，在 viewDidLoad() 方法最下方添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.senderId = FIRAuth.auth()?.currentUser?.uid</span><br></pre></td></tr></table></figure>
+<p>这将基于已登录的 Firebase 用户设置 senderId。</p>
+<p>Build and run 我们的 app 并导航到一个 channel 页面。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-776c63c5ee902e62.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Empty Channel"></p>
+<p>通过简单地继承 JSQMessagesViewController，我们得到一个完整的聊天界面。:]</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-204b29589556dd27.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Fine chat app"></p>
+<h5 id="设置-Data-Source-和-Delegate"><a href="#设置-Data-Source-和-Delegate" class="headerlink" title="设置  Data Source 和 Delegate"></a>设置  Data Source 和 Delegate</h5><p>现在我们已经看到了新的很棒的聊天 UI，我们可能想要开始显示消息了。但在这么做之前，我们必须注意一些事情。</p>
+<p>要显示消息，我们需要一个数据源来提供符合 JSQMessageData 协议的对象，我们还需要实现一些委托方法。虽然我们可以创建符合 JSQMessageData 协议的类，但我们将使用已经提供的 JSQMessage 类。</p>
+<p>在 ChatViewController 顶部，添加如下属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var messages = [JSQMessage]()</span><br></pre></td></tr></table></figure>
+<p>messages 是应用程序中存储 JSQMessage 各种实例的数组。</p>
+<p>添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -&gt; JSQMessageData! &#123;</span><br><span class="line">  return messages[indexPath.item]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -&gt; Int &#123;</span><br><span class="line">  return messages.count</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于上述两种委托方法，我们并不陌生。第一个类似于 collectionView(_:cellForItemAtIndexPath:)，只是管理的对象是 message data。第二种是在每个 section 中返回messages 数量的标准方法;</p>
+<h5 id="消息气泡颜色"><a href="#消息气泡颜色" class="headerlink" title="消息气泡颜色"></a>消息气泡颜色</h5><p>在  collection view 中显示的消息只是文本覆盖的图像。有两种类型的消息:传出和传入。传出的消息会显示在右边，传入的消息显示在左边。</p>
+<p>在 ChatViewController 中添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private func setupOutgoingBubble() -&gt; JSQMessagesBubbleImage &#123;</span><br><span class="line">  let bubbleImageFactory = JSQMessagesBubbleImageFactory()</span><br><span class="line">  return bubbleImageFactory!.outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">private func setupIncomingBubble() -&gt; JSQMessagesBubbleImage &#123;</span><br><span class="line">  let bubbleImageFactory = JSQMessagesBubbleImageFactory()</span><br><span class="line">  return bubbleImageFactory!.incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在头部添加如下属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lazy var outgoingBubbleImageView: JSQMessagesBubbleImage = self.setupOutgoingBubble()</span><br><span class="line">lazy var incomingBubbleImageView: JSQMessagesBubbleImage = self.setupIncomingBubble()</span><br></pre></td></tr></table></figure>
+<p>JSQMessagesBubbleImageFactory 有创建聊天泡泡的图片方法,。JSQMessagesViewController 甚至还有一个类别提供创建消息泡沫的颜色。</p>
+<p>使用 outgoingMessagesBubbleImage (:with) 和incomingMessagesBubbleImage(: with)方法,我们可以创建输入输出图像。这样，我们就有了创建传出和传入消息气泡所需的图像视图了!</p>
+<p>先别太兴奋了，我们还需要实现消息气泡的委托方法。</p>
+<p>#####设置气泡图像 </p>
+<p>为每个 message 设置 colored bubble imag ，我们需要重载被collectionView(_:messageBubbleImageDataForItemAt:)调用的 JSQMessagesCollectionViewDataSource 方法。</p>
+<p>这要求数据源提供消息气泡图像数据，该数据对应于collectionView 中的 indexPath 中的 message 项。</p>
+<p>在 ChatViewController 添加代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -&gt; JSQMessageBubbleImageDataSource! &#123;</span><br><span class="line">  let message = messages[indexPath.item] // 1</span><br><span class="line">  if message.senderId == senderId &#123; // 2</span><br><span class="line">    return outgoingBubbleImageView</span><br><span class="line">  &#125; else &#123; // 3</span><br><span class="line">    return incomingBubbleImageView</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码注释:</p>
+<ol>
+<li>在这里检索消息。</li>
+<li>如果消息是由本地用户发送的，则返回 outgoing image view。</li>
+<li>相反，则返回 incoming image view.</li>
+</ol>
+<h5 id="移除头像"><a href="#移除头像" class="headerlink" title="移除头像"></a>移除头像</h5><p>JSQMessagesViewController 提供头像，但是在匿名 RIC app 中我们不需要或者不想使用头像。</p>
+<p>在 ChatViewController 添加代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -&gt; JSQMessageAvatarImageDataSource! &#123;</span><br><span class="line">  return nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了移除 avatar image, 在每个  message’s avatar display 返回 nil 。</p>
+<p>最后，在 viewDidLoad() 添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// No avatars</span><br><span class="line">collectionView!.collectionViewLayout.incomingAvatarViewSize = CGSize.zero</span><br><span class="line">collectionView!.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero</span><br></pre></td></tr></table></figure>
+<p>这将告诉布局，当没有 avatars 时，avatar 大小为 CGSize.zero。</p>
+<p>检查 app 构建，我们可以导航到我们的一个频道;</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-5d347b3550343216.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Empty channel"></p>
+<p>是时候开始对话并添加一些信息了!</p>
+<h5 id="创建消息"><a href="#创建消息" class="headerlink" title="创建消息"></a>创建消息</h5><p>在 ChatViewController 中创建如下方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private func addMessage(withId id: String, name: String, text: String) &#123;</span><br><span class="line">  if let message = JSQMessage(senderId: id, displayName: name, text: text) &#123;</span><br><span class="line">    messages.append(message)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法创建了一个 JSQMessage，并添加到 messages 数据源中。</p>
+<p>在 viewDidAppear(_:) 添加硬编码消息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// messages from someone else</span><br><span class="line">addMessage(withId: &quot;foo&quot;, name: &quot;Mr.Bolt&quot;, text: &quot;I am so fast!&quot;)</span><br><span class="line">// messages sent from local sender</span><br><span class="line">addMessage(withId: senderId, name: &quot;Me&quot;, text: &quot;I bet I can run faster than you!&quot;)</span><br><span class="line">addMessage(withId: senderId, name: &quot;Me&quot;, text: &quot;I like to run!&quot;)</span><br><span class="line">// animates the receiving of a new message on the view</span><br><span class="line">finishReceivingMessage()</span><br></pre></td></tr></table></figure>
+<p>Build and run，我们将看到如下效果：</p>
+<p><a href="https://koenig-media.raywenderlich.com/uploads/2016/08/FakeMessageData.jpg" target="_blank" rel="external"></a></p>
+<p>恩，文字读起来有点不爽，它应该显示黑色的。</p>
+<h4 id="消息气泡文字"><a href="#消息气泡文字" class="headerlink" title="消息气泡文字"></a>消息气泡文字</h4><p>现在我们知道，如果想在 JSQMessagesViewController 做几乎所有事情,我们只需要覆盖一个方法。要设置文本颜色，请使用老式的collectionView(_:cellForItemAt:)。</p>
+<p>在 ChatViewController 中添加如下方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -&gt; UICollectionViewCell &#123;</span><br><span class="line">  let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell</span><br><span class="line">  let message = messages[indexPath.item]</span><br><span class="line">  </span><br><span class="line">  if message.senderId == senderId &#123;</span><br><span class="line">    cell.textView?.textColor = UIColor.white</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    cell.textView?.textColor = UIColor.black</span><br><span class="line">  &#125;</span><br><span class="line">  return cell</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果消息是由本地用户发送的，设置文本颜色为白色。如果不是本地用户发送的，设置文本颜色为黑色。</p>
+<p><a href="https://koenig-media.raywenderlich.com/uploads/2016/08/FakeMessageDataEasyToRead.jpg" target="_blank" rel="external"><img src="http://upload-images.jianshu.io/upload_images/130752-0a5bd0a189d15586.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Incoming messages"></a></p>
+<p>这是一个很不错的聊天 app! 是时候让它与 Firebase 一起工作了。</p>
+<h4 id="Sending-Messages"><a href="#Sending-Messages" class="headerlink" title="Sending Messages"></a>Sending Messages</h4><p>在  ChatViewController.swift 中添加如下属性：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private lazy var messageRef: FIRDatabaseReference = self.channelRef!.child(&quot;messages&quot;)</span><br><span class="line">private var newMessageRefHandle: FIRDatabaseHandle?</span><br></pre></td></tr></table></figure>
+<p>这和我们在 ChannelListViewController 中添加的 channelRef、 channelRefHandle 属性相似，我们应该很熟悉了。</p>
+<p>接下来，删除  ChatViewController 中的 viewDidAppear(_:) ，移除  stub test messages。</p>
+<p>然后，重写以下方法，使 “发送” 按钮将消息保存到 Firebase 数据库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) &#123;</span><br><span class="line">  let itemRef = messageRef.childByAutoId() // 1</span><br><span class="line">  let messageItem = [ // 2 </span><br><span class="line">    &quot;senderId&quot;: senderId!,</span><br><span class="line">    &quot;senderName&quot;: senderDisplayName!,</span><br><span class="line">    &quot;text&quot;: text!,</span><br><span class="line">  ]</span><br><span class="line">  </span><br><span class="line">  itemRef.setValue(messageItem) // 3</span><br><span class="line">  </span><br><span class="line">  JSQSystemSoundPlayer.jsq_playMessageSentSound() // 4</span><br><span class="line">  </span><br><span class="line">  finishSendingMessage() // 5</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注解：</p>
+<ol>
+<li>使用 childByAutoId()，创建一个带有惟一键的子引用。</li>
+<li>然后创建一个字典来存储消息。</li>
+<li>接下来，保存新子位置上的值。</li>
+<li>然后播放常规的 “消息发送”  声音。</li>
+<li>最后，完成 “发送” 操作并将输入框重置为空。</li>
+</ol>
+<p>Build and run; 打开 Firebase 应用程序指示板并单击 Data 选项卡。在应用程序中发送一条消息，我们就可以看到实时显示在仪表板上的消息了:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-6966090a573224fc.gif?imageMogr2/auto-orient/strip" alt="Sending a message"></p>
+<p>High five ! 我们已经可以像专业人员一样将消息保存到 Firebase 数据库了。现在消息还不会出现在屏幕上，接下来我们将处理它。</p>
+<h5 id="同步-Data-Source"><a href="#同步-Data-Source" class="headerlink" title="同步 Data Source"></a>同步 Data Source</h5><p>在 ChatViewController 中添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">private func observeMessages() &#123;</span><br><span class="line"> messageRef = channelRef!.child(&quot;messages&quot;)</span><br><span class="line"> // 1.</span><br><span class="line"> let messageQuery = messageRef.queryLimited(toLast:25)</span><br><span class="line"> </span><br><span class="line"> // 2. We can use the observe method to listen for new</span><br><span class="line"> // messages being written to the Firebase DB</span><br><span class="line"> newMessageRefHandle = messageQuery.observe(.childAdded, with: &#123; (snapshot) -&gt; Void in</span><br><span class="line">   // 3</span><br><span class="line">   let messageData = snapshot.value as! Dictionary&lt;String, String&gt;</span><br><span class="line"></span><br><span class="line">   if let id = messageData[&quot;senderId&quot;] as String!, let name = messageData[&quot;senderName&quot;] as String!, let text = messageData[&quot;text&quot;] as String!, text.characters.count &gt; 0 &#123;</span><br><span class="line">     // 4</span><br><span class="line">     self.addMessage(withId: id, name: name, text: text)</span><br><span class="line">     </span><br><span class="line">     // 5</span><br><span class="line">     self.finishReceivingMessage()</span><br><span class="line">   &#125; else &#123;</span><br><span class="line">     print(&quot;Error! Could not decode message data&quot;)</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以下注解：</p>
+<ol>
+<li>首先创建一个查询，将同步限制到最后 25 条消息。</li>
+<li>使用 .ChildAdded 观察已经添加到和即将添加到 messages 位置每个子 item。</li>
+<li>从 snapshot 中提取messageData。</li>
+<li>使用 addMessage(withId:name:text) 方法添加新消息到数据源。</li>
+<li>通知 JSQMessagesViewController，已经接收了消息。 </li>
+</ol>
+<p>接下来，在 viewDidLoad() 中调用方法： observeMessages()。</p>
+<p>Build and run，我们将看到我们前面输入和现在输入的所有消息。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-402d03270957ef56.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Messages from firebase"></p>
+<p>恭喜!我们已经有一个实时聊天应用了! 现在是做一些更高级的事情的时候了，比如在用户输入的时候检测。</p>
+<h5 id="检测用户何时在输入"><a href="#检测用户何时在输入" class="headerlink" title="检测用户何时在输入"></a>检测用户何时在输入</h5><p>这款应用程序最酷的功能之一就是看到 “用户正在输入” 的指示器。当小气泡弹出时，你知道另一个用户在键盘上打字。这个指标非常重要，因为它可以避免我们发送那些尴尬的 “你还在吗?” 消息。</p>
+<p>检测打字有很多方法，但 textViewDidChange(_:) 是一个很好的检查时机。将以下内容添加到ChatViewController的底部:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">override func textViewDidChange(_ textView: UITextView) &#123;</span><br><span class="line">  super.textViewDidChange(textView)</span><br><span class="line">  // If the text is not empty, the user is typing</span><br><span class="line">  print(textView.text != &quot;&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>要确定用户是否在输入，请检查 textview . text 的值。如果这个值不是空字符串，那么您就知道用户已经键入了一些东西。</p>
+<p>通过 Firebase ，  当用户输入时我们可以更新 Firebase 数据库。然后，为了响应数据库更新这个指示，我们可以显示 “用户正在输入” 指示器。</p>
+<p>为了实现目的，在 ChatViewController 中添加如下属性：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private lazy var userIsTypingRef: FIRDatabaseReference = </span><br><span class="line">  self.channelRef!.child(&quot;typingIndicator&quot;).child(self.senderId) // 1</span><br><span class="line">private var localTyping = false // 2</span><br><span class="line">var isTyping: Bool &#123;</span><br><span class="line">  get &#123;</span><br><span class="line">    return localTyping</span><br><span class="line">  &#125;</span><br><span class="line">  set &#123;</span><br><span class="line">    // 3</span><br><span class="line">    localTyping = newValue</span><br><span class="line">    userIsTypingRef.setValue(newValue)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以下是我们需要了解的这些特性:</p>
+<ol>
+<li>创建一个用于跟踪本地用户是否正在输入的 Firebase 引用。</li>
+<li>新增私有属性，标记本地用户是否在输入。</li>
+<li>每次更改时，使用计算属性更新 localTyping 和 userIsTypingRef。</li>
+</ol>
+<p>现在，添加如下方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private func observeTyping() &#123;</span><br><span class="line">  let typingIndicatorRef = channelRef!.child(&quot;typingIndicator&quot;)</span><br><span class="line">  userIsTypingRef = typingIndicatorRef.child(senderId)</span><br><span class="line">  userIsTypingRef.onDisconnectRemoveValue()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个方法创建一个名为 typingIndicator 的通道的子引用，它是我们更新用户输入状态的地方。我们不希望这些数据在用户注销之后仍然逗留，因此我们可以在用户使用后删除它 onDisconnectRemoveValue()。</p>
+<p>添加以下内容调用新方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">override func viewDidAppear(_ animated: Bool) &#123;</span><br><span class="line">  super.viewDidAppear(animated)</span><br><span class="line">  observeTyping()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>替换 textViewDidChange(_:) 中的 print(textView.text != “”) ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">isTyping = textView.text != &quot;&quot;</span><br></pre></td></tr></table></figure>
+<p>这只是在用户输入时设置 isTyping。</p>
+<p>最后，在 didPressSend(_:withMessageText:senderId:senderDisplayName:date:): 后面添加如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">isTyping = false</span><br></pre></td></tr></table></figure></p>
+<p>当按下 Send 按钮时，这将重置输入指示器。</p>
+<p>Build and run，打开Firebase应用程序仪表板查看数据。当我们键入消息时，我们应该可以看到为用户提供的类型指示器记录更新:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-157a7ff101cd9e6a.gif?imageMogr2/auto-orient/strip" alt="Typing indicator"></p>
+<p>我们现在已经知道什么时候用户在输入了，接下来是显示指示器的时候了。</p>
+<h4 id="查询正在输入的用户"><a href="#查询正在输入的用户" class="headerlink" title="查询正在输入的用户"></a>查询正在输入的用户</h4><p>“用户正在输入”  指示符应该在除本地用户外任何用户键入时显示，因为本地用户在键入时自己已经知道啦。</p>
+<p>使用 Firebase query ，我们可以检索当前正在键入的所有用户。在 ChatViewController  中添加如下属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private lazy var usersTypingQuery: FIRDatabaseQuery = </span><br><span class="line">  self.channelRef!.child(&quot;typingIndicator&quot;).queryOrderedByValue().queryEqual(toValue: true)</span><br></pre></td></tr></table></figure></p>
+<p>这个属性保存了一个 FIRDatabaseQuery，它就像一个 Firebase 引用，但它是有序的。通过检索所有正在输入的用户来初始化查询。这基本上是说，“嘿，Firebase，查询关键字 / typing 指示器，然后给我所有值为 true 的用户。”</p>
+<p>接下来，在  observeTyping() 添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 1</span><br><span class="line">usersTypingQuery.observe(.value) &#123; (data: FIRDataSnapshot) in</span><br><span class="line">  // 2 You&apos;re the only one typing, don&apos;t show the indicator</span><br><span class="line">  if data.childrenCount == 1 &amp;&amp; self.isTyping &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 3 Are there others typing?</span><br><span class="line">  self.showTypingIndicator = data.childrenCount &gt; 0</span><br><span class="line">  self.scrollToBottom(animated: true)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注释：</p>
+<ol>
+<li>我们使用 .value 监听状态，当其值改变时，该 ompletion block  将被调用。</li>
+<li>我们需要知道在查询中有多少用户，如果仅仅只有本地用户，不显示指示器。</li>
+<li>如果有用户，再设置指示器显示。调用 scrolltobottom 动画以确保显示指示器。</li>
+</ol>
+<p>在 build and run 之前，拿起一个物理 iOS 设备，测试这种情况需要两个设备。一个用户使用模拟器，另一个用户使用真机。</p>
+<p>现在，同时 build and run 模拟器和真机，当一个用户输入时，另外用户可以看到指示器出现：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-9829fac8efcfc977.gif?imageMogr2/auto-orient/strip" alt="Multi-user typing indicator"></p>
+<p>现在我们有了一个打字指示器，但我们还缺少一个现代通讯应用的一大特色功能——发送图片!</p>
+<h5 id="发送图片"><a href="#发送图片" class="headerlink" title="发送图片"></a>发送图片</h5><p>要发送图像，我们将遵循与发送文本相同的原则，其中有一个关键区别: 我们将使用 Firebase 存储，而不是直接将图像数据存储在消息中，这更适合存储音频、视频或图像等大型文件。</p>
+<p>在  ChatViewController.swift 中添加 Photos ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import Photos</span><br></pre></td></tr></table></figure></p>
+<p>接下来，添加如下属性:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lazy var storageRef: FIRStorageReference = FIRStorage.storage().reference(forURL: &quot;YOUR_URL_HERE&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>这是一个 Firebase 存储引用，概念上类似于我们已经看到的 Firebase 数据库引用，但是对于存储对象来说，用你的 Firebase 应用程序 URL 替换YOUR_URL_HERE，我们可以在你的应用程序控制台中点击存储。<br><img src="http://upload-images.jianshu.io/upload_images/130752-189474f3b3774ad9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Firebase console storage"></p>
+<p>发送照片信息需要一点点的 smoke 和 mirrors ，而不是在这段时间阻塞用户界面，这会让你的应用感觉很慢。保存照片到Firebase 存储返回一个URL，这可能需要几秒钟——如果网络连接很差的话，可能需要更长的时间。我们会用一个假的URL发送照片信息，并在照片保存后更新消息。</p>
+<p>添加如下属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private let imageURLNotSetKey = &quot;NOTSET&quot;</span><br></pre></td></tr></table></figure></p>
+<p>并添加方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">func sendPhotoMessage() -&gt; String? &#123;</span><br><span class="line">  let itemRef = messageRef.childByAutoId()</span><br><span class="line"></span><br><span class="line">  let messageItem = [</span><br><span class="line">    &quot;photoURL&quot;: imageURLNotSetKey,</span><br><span class="line">    &quot;senderId&quot;: senderId!,</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">  itemRef.setValue(messageItem)</span><br><span class="line"></span><br><span class="line">  JSQSystemSoundPlayer.jsq_playMessageSentSound()</span><br><span class="line"></span><br><span class="line">  finishSendingMessage()</span><br><span class="line">  return itemRef.key</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这很像我们之前实现的 didPressSend(_:withMessageText:senderId:senderDisplayName:date:) 方法。</p>
+<p>现在，我们需要能够在获取映像的 Firebase 存储 URL之后更新消息。添加以下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func setImageURL(_ url: String, forPhotoMessageWithKey key: String) &#123;</span><br><span class="line">  let itemRef = messageRef.child(key)</span><br><span class="line">  itemRef.updateChildValues([&quot;photoURL&quot;: url])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，我们需要允许用户选择要发送的图像。幸运的是 JSQMessagesViewController 已经包含添加一个图像到我们消息的 UI ,所以我们只需要实现对应的方法处理点击就好了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">override func didPressAccessoryButton(_ sender: UIButton) &#123;</span><br><span class="line">  let picker = UIImagePickerController()</span><br><span class="line">  picker.delegate = self</span><br><span class="line">  if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) &#123;</span><br><span class="line">    picker.sourceType = UIImagePickerControllerSourceType.camera</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    picker.sourceType = UIImagePickerControllerSourceType.photoLibrary</span><br><span class="line">  &#125;</span><br><span class="line">     </span><br><span class="line">  present(picker, animated: true, completion:nil)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里，如果设备支持拍照，将弹出摄像机，如果不支持，会弹出相册。</p>
+<p>接下来,当用户选择图像，我们需要实现 UIImagePickerControllerDelegate方法来处理。将以下内容添加到文件的底部(在最后一个关闭括号之后):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">// MARK: Image Picker Delegate</span><br><span class="line">extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate &#123;</span><br><span class="line">  func imagePickerController(_ picker: UIImagePickerController, </span><br><span class="line">    didFinishPickingMediaWithInfo info: [String : Any]) &#123;</span><br><span class="line">      </span><br><span class="line">    picker.dismiss(animated: true, completion:nil)</span><br><span class="line"></span><br><span class="line">    // 1</span><br><span class="line">    if let photoReferenceUrl = info[UIImagePickerControllerReferenceURL] as? URL &#123;</span><br><span class="line">      // Handle picking a Photo from the Photo Library</span><br><span class="line">      // 2</span><br><span class="line">      let assets = PHAsset.fetchAssets(withALAssetURLs: [photoReferenceUrl], options: nil)</span><br><span class="line">      let asset = assets.firstObject</span><br><span class="line">      </span><br><span class="line">      // 3</span><br><span class="line">      if let key = sendPhotoMessage() &#123;</span><br><span class="line">        // 4 </span><br><span class="line">        asset?.requestContentEditingInput(with: nil, completionHandler: &#123; (contentEditingInput, info) in</span><br><span class="line">          let imageFileURL = contentEditingInput?.fullSizeImageURL</span><br><span class="line">          </span><br><span class="line">          // 5</span><br><span class="line">          let path = &quot;\(FIRAuth.auth()?.currentUser?.uid)/\(Int(Date.timeIntervalSinceReferenceDate * 1000))/\(photoReferenceUrl.lastPathComponent)&quot;</span><br><span class="line"></span><br><span class="line">          // 6</span><br><span class="line">          self.storageRef.child(path).putFile(imageFileURL!, metadata: nil) &#123; (metadata, error) in</span><br><span class="line">            if let error = error &#123;</span><br><span class="line">              print(&quot;Error uploading photo: \(error.localizedDescription)&quot;)</span><br><span class="line">              return</span><br><span class="line">            &#125;</span><br><span class="line">            // 7</span><br><span class="line">            self.setImageURL(self.storageRef.child((metadata?.path)!).description, forPhotoMessageWithKey: key)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      // Handle picking a Photo from the Camera - TODO</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) &#123;</span><br><span class="line">    picker.dismiss(animated: true, completion:nil)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注解：</p>
+<ol>
+<li>首先，从 info dictionary 获取图像。</li>
+<li>调用  sendPhotoMessage() 方法，保存图像 URL 到 Firebase 数据库。</li>
+<li>接下来，我们将得到照片的 JPEG 表示，准备发送到 Firebase 存储。</li>
+<li>如前所述，根据用户的惟一 id 和当前时间创建一个独特的 URL。</li>
+<li>创建一个 FIRStorageMetadata 对象并将元数据设置为 image / jpeg。</li>
+<li>然后保存图像到 Firebase 数据库。</li>
+<li>图像被保存后，我们将再次调用 setImageURL() 方法。</li>
+</ol>
+<p>几近完美! 现在我们已经建立了可以将图像数据保存到 Firebase 并将 URL 保存到消息数据存储中的应用程序，但我们还没有更新应用程序来显示这些照片。接下来我们来解决这个问题。</p>
+<h4 id="展示图像"><a href="#展示图像" class="headerlink" title="展示图像"></a>展示图像</h4><p>首先，在 ChatViewController 中添加属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private var photoMessageMap = [String: JSQPhotoMediaItem]()</span><br></pre></td></tr></table></figure>
+<p>它包含一个 jsqphotomediaitem 数组。</p>
+<p>现在，我们需要为 addMessage (withId:name:text:) 创建一个兄弟方法。添加以下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private func addPhotoMessage(withId id: String, key: String, mediaItem: JSQPhotoMediaItem) &#123;</span><br><span class="line">  if let message = JSQMessage(senderId: id, displayName: &quot;&quot;, media: mediaItem) &#123;</span><br><span class="line">    messages.append(message)</span><br><span class="line"></span><br><span class="line">    if (mediaItem.image == nil) &#123;</span><br><span class="line">      photoMessageMap[key] = mediaItem</span><br><span class="line">    &#125;</span><br><span class="line">    collectionView.reloadData()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里，如果图像键尚未设置，则将 JSQPhotoMediaItem 存储在新属性中。这允许我们在稍后设置图像时检索并更新消息。</p>
+<p>我们还需要能够从 Firebase 数据库获取图像数据，以便在UI中显示它。添加以下方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">private func fetchImageDataAtURL(_ photoURL: String, forMediaItem mediaItem: JSQPhotoMediaItem, clearsPhotoMessageMapOnSuccessForKey key: String?) &#123;</span><br><span class="line">  // 1</span><br><span class="line">  let storageRef = FIRStorage.storage().reference(forURL: photoURL)</span><br><span class="line">  </span><br><span class="line">  // 2</span><br><span class="line">  storageRef.data(withMaxSize: INT64_MAX)&#123; (data, error) in</span><br><span class="line">    if let error = error &#123;</span><br><span class="line">      print(&quot;Error downloading image data: \(error)&quot;)</span><br><span class="line">      return</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 3</span><br><span class="line">    storageRef.metadata(completion: &#123; (metadata, metadataErr) in</span><br><span class="line">      if let error = metadataErr &#123;</span><br><span class="line">        print(&quot;Error downloading metadata: \(error)&quot;)</span><br><span class="line">        return</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      // 4</span><br><span class="line">      if (metadata?.contentType == &quot;image/gif&quot;) &#123;</span><br><span class="line">        mediaItem.image = UIImage.gifWithData(data!)</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        mediaItem.image = UIImage.init(data: data!)</span><br><span class="line">      &#125;</span><br><span class="line">      self.collectionView.reloadData()</span><br><span class="line">      </span><br><span class="line">      // 5</span><br><span class="line">      guard key != nil else &#123;</span><br><span class="line">        return</span><br><span class="line">      &#125;</span><br><span class="line">      self.photoMessageMap.removeValue(forKey: key!)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注解：</p>
+<ol>
+<li>获取存储映像的引用。</li>
+<li>从存储中获取对象。</li>
+<li>从存储中获取图像元数据。</li>
+<li>如果元数据显示图像是 GIF，我们需要使用 UIImage 类别，它通过 SwiftGifOrigin Cocapod 被拉进来。这是需要的，因为 UIImage 不处理 GIF 图像。否则我们只需要用普通的 UIImage 就可以了。</li>
+<li>最后，我们从 photoMessageMap 中删除键，现在我们已经获取了图像数据。</li>
+</ol>
+<p>最后，我们需要更新 observeMessages()。在 if 语句中，但在 else 条件之前，添加以下测试:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">else if let id = messageData[&quot;senderId&quot;] as String!,</span><br><span class="line">        let photoURL = messageData[&quot;photoURL&quot;] as String! &#123; // 1</span><br><span class="line">  // 2</span><br><span class="line">  if let mediaItem = JSQPhotoMediaItem(maskAsOutgoing: id == self.senderId) &#123;</span><br><span class="line">    // 3</span><br><span class="line">    self.addPhotoMessage(withId: id, key: snapshot.key, mediaItem: mediaItem)</span><br><span class="line">    // 4</span><br><span class="line">    if photoURL.hasPrefix(&quot;gs://&quot;) &#123;</span><br><span class="line">      self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: nil)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>让我们逐行解释：</p>
+<ol>
+<li>首先，检查你是否有一个photoURL集。</li>
+<li>如果可以，创建一个新的 JSQPhotoMediaItem。这个对象封装了消息中的富媒体——正是你所需要的!</li>
+<li>调用 addPhotoMessage 方法。</li>
+<li>最后，检查一下，确保 photoURL 包含一个 Firebase 存储对象的前缀。如果是，获取图像数据。</li>
+</ol>
+<p>现在只剩下最后一件事了，你能猜到是什么么？</p>
+<p>当你在解码照片信息时，你只是在你第一次观察图像数据时才这样做。但是，你还需要观察稍后发生的消息的任何更新，比如在将图像 URL 保存到存储后更新它。</p>
+<p>添加下面属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private var updatedMessageRefHandle: FIRDatabaseHandle?</span><br></pre></td></tr></table></figure>
+<p>在 observeMessages() 底部添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// We can also use the observer method to listen for</span><br><span class="line">// changes to existing messages.</span><br><span class="line">// We use this to be notified when a photo has been stored</span><br><span class="line">// to the Firebase Storage, so we can update the message data</span><br><span class="line">updatedMessageRefHandle = messageRef.observe(.childChanged, with: &#123; (snapshot) in</span><br><span class="line">  let key = snapshot.key</span><br><span class="line">  let messageData = snapshot.value as! Dictionary&lt;String, String&gt; // 1</span><br><span class="line">    </span><br><span class="line">  if let photoURL = messageData[&quot;photoURL&quot;] as String! &#123; // 2</span><br><span class="line">    // The photo has been updated.</span><br><span class="line">    if let mediaItem = self.photoMessageMap[key] &#123; // 3</span><br><span class="line">      self.fetchImageDataAtURL(photoURL, forMediaItem: mediaItem, clearsPhotoMessageMapOnSuccessForKey: key) // 4</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>注解：</p>
+<ol>
+<li>从 Firebase 快照中获取消息数据字典。</li>
+<li>检查字典是否有一个 photoURL 键集。</li>
+<li>如果是这样，则从缓存中提取 JSQPhotoMediaItem。</li>
+<li>最后，获取图像数据并使用图像更新消息!</li>
+</ol>
+<p>当 ChatViewController 消失时，我们需要做的最后一件事就是整理和清理。添加以下方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">deinit &#123;</span><br><span class="line">  if let refHandle = newMessageRefHandle &#123;</span><br><span class="line">    messageRef.removeObserver(withHandle: refHandle)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  if let refHandle = updatedMessageRefHandle &#123;</span><br><span class="line">    messageRef.removeObserver(withHandle: refHandle)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Build and run 应用程序; 我们就应该能够在聊天中点击小的 paperclip 图标发送照片或图片信息了。注意这些消息何时显示一个等待的小 spinner—— 当我们的应用程序保存照片数据到 Firebase 存储的时候。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/130752-e159da58121447fb.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Send photos"></p>
+<p>Kaboom! 我们刚刚做了一个说大也大说小也小、实时的、用户可以输入照片和 GIF 的聊天应用程序。</p>
+<p>####Where to Go From Here?</p>
+<p>Demo 下载地址： <a href="https://koenig-media.raywenderlich.com/uploads/2016/09/ChatChatFirebaseTutorial-finished.zip" target="_blank" rel="external">completed project</a> </p>
+<p>我们现在知道 Firebase 和 JSQMessagesViewController 的基本知识，但还有很多你可以做，包括 one-to-one messaging、social authentication、头像显示等。</p>
+<p>想更多了解，请查阅 <a href="https://firebase.google.com/docs/ios" target="_blank" rel="external">Firebase iOS documentation</a>.</p>
+<p> – 2017.10.24<br>上海 虹桥V1</p>
+
+      
+    </div>
+    
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="Joey Chang wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton", disable="enable", onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}", style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+    <span onmouseover="this.style.color='rgb(236,96,0)';this.style.background='rgb(204,204,204)'" onMouseOut="this.style.color='#fff';this.style.background='rgb(236,96,0)'" style="display: inline-block; width: 70px; height: 70px; border-radius: 100%; line-height: 81px; color: #fff; font: 400 35px/75px 'microsofty'; background: rgb(236,96,0)">赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/uploads/wechat-reward.jpg" alt="Joey Chang WeChat Pay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>微信打赏</p>
+      </div>
+    
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/uploads/alipay-reward.jpg" alt="Joey Chang Alipay" style="width: 200px; max-width: 100%; display: inline-block"/>
+        <p>支付宝打赏</p>
+      </div>
+    
+  </div>
+</div>
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/我的翻译/" rel="tag">#我的翻译</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/22/2017/姑苏、姑苏/" rel="next" title="姑苏、姑苏">
+                <i class="fa fa-chevron-left"></i> 姑苏、姑苏
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/29/2017/香港两日/" rel="prev" title="香港两日">
+                香港两日 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/10/24/2017/Firebase-教程--iOS-实时聊天/"
+           data-title="Firebase-教程--iOS-实时聊天" data-url="http://ijoeychang.github.io/2017/10/24/2017/Firebase-教程--iOS-实时聊天/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="Joey Chang" />
+          <p class="site-author-name" itemprop="name">Joey Chang</p>
+          <p class="site-description motion-element" itemprop="description">读书、写字、周游天下...</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">57</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/iJoeychang" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/9a969b4dae83/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-home"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/3490688707" target="_blank">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#开始"><span class="nav-number">1.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#允许匿名认证"><span class="nav-number">2.</span> <span class="nav-text">允许匿名认证</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#登录"><span class="nav-number">3.</span> <span class="nav-text">登录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Firebase-数据结构"><span class="nav-number">4.</span> <span class="nav-text">Firebase 数据结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实时-Channel-同步"><span class="nav-number">5.</span> <span class="nav-text">实时 Channel  同步</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#创建聊天界面"><span class="nav-number">6.</span> <span class="nav-text">创建聊天界面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设置-Data-Source-和-Delegate"><span class="nav-number">7.</span> <span class="nav-text">设置  Data Source 和 Delegate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#消息气泡颜色"><span class="nav-number">8.</span> <span class="nav-text">消息气泡颜色</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#移除头像"><span class="nav-number">9.</span> <span class="nav-text">移除头像</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#创建消息"><span class="nav-number">10.</span> <span class="nav-text">创建消息</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息气泡文字"><span class="nav-number"></span> <span class="nav-text">消息气泡文字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sending-Messages"><span class="nav-number"></span> <span class="nav-text">Sending Messages</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#同步-Data-Source"><span class="nav-number">1.</span> <span class="nav-text">同步 Data Source</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#检测用户何时在输入"><span class="nav-number">2.</span> <span class="nav-text">检测用户何时在输入</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询正在输入的用户"><span class="nav-number"></span> <span class="nav-text">查询正在输入的用户</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#发送图片"><span class="nav-number">1.</span> <span class="nav-text">发送图片</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#展示图像"><span class="nav-number"></span> <span class="nav-text">展示图像</span></a></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Joey Chang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+本站总访问量 <span id="busuanzi_value_site_pv"></span> &nbsp&nbsp&nbsp
+您是第<span id="busuanzi_value_site_uv"></span>位到访者
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=0.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"joeychang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+
+
+
+</body>
+</html>
